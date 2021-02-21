@@ -3,6 +3,7 @@ import numpy as np
 import argparse
 import cv2
 import pprint
+import os
 
 class FaceDet:
 
@@ -10,10 +11,11 @@ class FaceDet:
 
         # construct the argument parse and parse the arguments
         ap = argparse.ArgumentParser()
+        self.path = os.path.abspath(os.path.dirname(__file__))
 
-        ap.add_argument("-i", "--image", default='test_image01.jpg', help="patho to input image")
-        ap.add_argument("-p", "--prototxt", default='deploy.prototxt.txt', help="path to Caffee 'deploy' prototxt file")
-        ap.add_argument("-m", "--model", default='res10_300x300_ssd_iter_140000.caffemodel', help="path to Caffe pre-trained model")
+        ap.add_argument("-i", "--image", default=self.abspath('test_image01.jpg'), help="patho to input image")
+        ap.add_argument("-p", "--prototxt", default=self.abspath('deploy.prototxt.txt'), help="path to Caffee 'deploy' prototxt file")
+        ap.add_argument("-m", "--model", default=self.abspath('res10_300x300_ssd_iter_140000.caffemodel'), help="path to Caffe pre-trained model")
         ap.add_argument("-c", "--confidence", type=float, default=0.5, help="minimum probability to filter weak detections")
 
         self.args = vars(ap.parse_args())
@@ -22,6 +24,9 @@ class FaceDet:
         print("[INFO] loading from model...")
         self.net = cv2.dnn.readNetFromCaffe(self.args["prototxt"], self.args["model"])
 
+    def abspath(self,filename):
+        return os.path.join(self.path, filename)
+        
     def detect(self,image=None,show=True):
     
         # load the input image and construct an input blob for the image and resize image to

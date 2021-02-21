@@ -3,18 +3,20 @@ import numpy as np
 import argparse
 import cv2 
 import pprint
+import os
 
 class PersonDet:
     def __init__(self):
+        self.path = os.path.abspath(os.path.dirname(__file__))
         # construct the argument parse 
         parser = argparse.ArgumentParser(
             description='Script to run MobileNet-SSD object detection network')
-        parser.add_argument("--image", default= "img.jpeg", help="path to video file. If empty, camera's stream will be used")
-        parser.add_argument("--prototxt", default="MobileNetSSD_deploy.prototxt",
+        parser.add_argument("--image", default= self.abspath("img.jpeg"), help="path to video file. If empty, camera's stream will be used")
+        parser.add_argument("--prototxt", default=self.abspath("MobileNetSSD_deploy.prototxt"),
                                           help='Path to text network file: '
                                                'MobileNetSSD_deploy.prototxt for Caffe model'
                                                )
-        parser.add_argument("--weights", default="MobileNetSSD_deploy.caffemodel",
+        parser.add_argument("--weights", default=self.abspath("MobileNetSSD_deploy.caffemodel"),
                                          help='Path to weights: '
                                               'MobileNetSSD_deploy.caffemodel for Caffe model'
                                               )
@@ -31,6 +33,9 @@ class PersonDet:
 
         #Load the Caffe model 
         self.net = cv2.dnn.readNetFromCaffe(self.args.prototxt, self.args.weights)
+
+    def abspath(self,filename):
+        return os.path.join(self.path, filename)
         
     def detect(self, frame=None, show=True,wanted_class = ['person']):    
         # Load image fro
