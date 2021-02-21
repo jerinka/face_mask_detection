@@ -96,7 +96,7 @@ class MaskDet:
             detsp[det_countp]={'class':'person','x1p':x1p,'y1p':y1p,'x2p':x2p,'y2p':y2p,'faces':detsf,'maskstatus':maskstatus}
             
         cv2.imshow('frame4',frame)
-        cv2.waitKey(0)
+        cv2.waitKey(200)
         return detsp
         
 if __name__ == '__main__':
