@@ -74,7 +74,7 @@ class FaceDet:
         if show==True:
             # show the output image
             cv2.imshow("Output", image)
-            cv2.waitKey(0)
+            cv2.waitKey(500)
         return dets
 
 if __name__=='__main__':

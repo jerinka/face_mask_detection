@@ -7,7 +7,7 @@ import os
 
 class PersonDet:
     def __init__(self):
-        self.path = os.path.abspath(os.path.dirname(__file__))
+        
         # construct the argument parse 
         parser = argparse.ArgumentParser(
             description='Script to run MobileNet-SSD object detection network')
@@ -35,6 +35,7 @@ class PersonDet:
         self.net = cv2.dnn.readNetFromCaffe(self.args.prototxt, self.args.weights)
 
     def abspath(self,filename):
+        self.path = os.path.abspath(os.path.dirname(__file__))
         return os.path.join(self.path, filename)
         
     def detect(self, frame=None, show=True,wanted_class = ['person']):    
@@ -108,8 +109,7 @@ class PersonDet:
                 yLeftBottom_ = box['yLeftBottom_']
                 xRightTop_   = box['xRightTop_']
                 yRightTop_   = box['yRightTop_']
-                cv2.rectangle(frame, (xLeftBottom_, yLeftBottom_), (xRightTop_, yRightTop_),
-                  (0, 0, 0),2)
+                cv2.rectangle(frame, (xLeftBottom_, yLeftBottom_), (xRightTop_, yRightTop_),(0, 0, 0),2)
                 # Draw label and confidence of prediction in frame resized
                 if class_id in self.classNames:
                     label = box['class_id'] + ": " + str(box['confidence'])
@@ -124,7 +124,7 @@ class PersonDet:
         if show == True:
             cv2.namedWindow("frame", cv2.WINDOW_NORMAL)
             cv2.imshow("frame", frame)
-            cv2.waitKey(0)
+            cv2.waitKey(500)
         return dets
 
 if __name__ == '__main__':
